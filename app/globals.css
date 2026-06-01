@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+/* UCSD primary: Navy #182B49, Gold #C69214 — expressed in OKLCH for mixing */
+:root {
+  color-scheme: only light;
+
+  --ucsd-navy: oklch(0.22 0.06 264);
+  --ucsd-gold: oklch(0.62 0.12 85);
+
+  --surface: oklch(0.98 0.012 264);
+  --surface-raised: oklch(0.995 0.008 264);
+  --ink: oklch(0.22 0.06 264);
+  --ink-muted: color-mix(in oklch, var(--ink) 58%, var(--surface));
+  --border: color-mix(in oklch, var(--ucsd-navy) 14%, var(--surface));
+  --accent: var(--ucsd-gold);
+  --accent-soft: color-mix(in oklch, var(--ucsd-gold) 22%, var(--surface));
+
+  --ring: color-mix(in oklch, var(--ucsd-gold) 55%, var(--ucsd-navy));
+
+  /* Bento playground — --bento-gap / --bento-pad set from ResizeObserver on the grid */
+  --bento-gap: 1rem;
+  --bento-pad: 1.25rem;
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-ucsd-navy: var(--ucsd-navy);
+  --font-sans: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  color-scheme: only light;
+}
+
+body {
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: clamp(0.9375rem, 0.2vw + 0.88rem, 1.0625rem);
+  line-height: 1.55;
+}
+
+/* Display = same family, slightly tighter rhythm for headings */
+.font-display {
+  font-family: var(--font-source-sans), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Remove any OS dark preference bleed — hub is light-only */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: only light;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+@keyframes bento-idle {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  33% {
+    transform: translate3d(3px, -4px, 0) rotate(0.35deg);
+  }
+  66% {
+    transform: translate3d(-2px, 2px, 0) rotate(-0.25deg);
+  }
+}
+
+.bento-idle {
+  animation: bento-idle 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bento-idle {
+    animation: none;
+  }
+}
